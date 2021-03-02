@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:dino_run/game/audio_manager.dart';
 import 'package:flame/anchor.dart';
@@ -16,7 +17,6 @@ class Dino extends AnimationComponent {
   Timer _timer;
   bool _isHit;
 
-  double speedX = 0.0;
   double speedY = 0.0;
   double yMax = 0.0;
   double xMax = 0.0;
@@ -55,7 +55,7 @@ class Dino extends AnimationComponent {
   void resize(Size size) {
     super.resize(size);
     this.height = this.width = size.width / numberOfTilesAlongWidth;
-    this.x = (size.width - this.width) / 2;
+    this.x = size.width / numberOfTilesAlongWidth * 2;
     this.y =
         size.height - groundHeight - (this.height / 2) + dinoTopBottomSpacing;
     this.xMax = size.width;
@@ -68,21 +68,10 @@ class Dino extends AnimationComponent {
 
     this.speedY += GRAVITY * t;
     this.y += this.speedY * t;
-    this.x += this.speedX;
 
     if (isOnGround()) {
       this.y = this.yMax;
       this.speedY = 0.0;
-      this.speedX -= 0.1;
-    }
-
-    if (this.x > this.xMax) {
-      this.x = this.xMax;
-      this.speedX = 0.0;
-    }
-    if (this.x < 0) {
-      this.x = 0;
-      this.speedX = 0.0;
     }
 
     _timer.update(t);
@@ -106,16 +95,12 @@ class Dino extends AnimationComponent {
       AudioManager.instance.playSfx('lion_hit.mp3');
       _isHit = true;
       Timer(3);
-      this.y = 0;
-      this.x = this.width * (numberOfTilesAlongWidth - 1) / 2;
-      this.speedX = 0.0;
     }
   }
 
   void jump() {
     if (isOnGround()) {
       this.speedY = -500;
-      this.speedX = 1;
       AudioManager.instance.playSfx('jump14.wav');
     }
   }
