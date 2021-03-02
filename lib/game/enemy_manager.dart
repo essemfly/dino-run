@@ -7,6 +7,8 @@ import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/time.dart';
 
+import 'audio_manager.dart';
+
 class EnemyManager extends Component with HasGameRef<DinoGame> {
   Random _random;
   Timer _timer;
@@ -23,8 +25,8 @@ class EnemyManager extends Component with HasGameRef<DinoGame> {
   void spawnRandomEnemy() {
     final randomNumber = _random.nextInt(EnemyType.values.length);
     final randomEnemyType = EnemyType.values.elementAt(randomNumber);
-    // final newEnemy = Enemy(randomEnemyType);
-    final newEnemy = Enemy(EnemyType.Lion);
+    final newEnemy = Enemy(randomEnemyType);
+    AudioManager.instance.playSfx('ES_Lion Roar Long - SFX Producer.mp3');
     gameRef.addLater(newEnemy);
   }
 

@@ -1,4 +1,3 @@
-import 'package:dino_run/screens/game_play.dart';
 import 'package:dino_run/widgets/menu.dart';
 import 'package:dino_run/widgets/settings.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class _MainMenuState extends State<MainMenu> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
+            image: AssetImage('assets/images/background/basic.png'),
             fit: BoxFit.cover,
           ),
         ),

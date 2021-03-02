@@ -14,7 +14,7 @@ Future<void> main() async {
   Hive.init(dir.path);
 
   await AudioManager.instance
-      .init(['8Bit Platformer Loop.wav', 'hurt7.wav', 'jump14.wav', 'ES_Lion Roar Long - SFX Producer.mp3']);
+      .init(['8Bit Platformer Loop.wav', 'lion_hit.mp3', 'hurt7.wav', 'jump14.wav', 'ES_Lion Roar Long - SFX Producer.mp3']);
   runApp(MyApp());
 }
 

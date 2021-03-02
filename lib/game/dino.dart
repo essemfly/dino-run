@@ -11,7 +11,8 @@ import 'constant.dart';
 
 class Dino extends AnimationComponent {
   Animation _runAnimation;
-  Animation _hitAnimation;
+
+  // Animation _hitAnimation;
   Timer _timer;
   bool _isHit;
 
@@ -30,17 +31,14 @@ class Dino extends AnimationComponent {
     // 17 - 23 = Sprint
 
     final spriteSheet = SpriteSheet(
-        imageName: 'BabyRun.png',
-        textureWidth: 225,
-        textureHeight: 262,
-        columns: 4,
+        imageName: 'savana/kid.png',
+        textureWidth: 174,
+        textureHeight: 254,
+        columns: 1,
         rows: 1);
 
     _runAnimation =
-        spriteSheet.createAnimation(0, from: 0, to: 3, stepTime: 0.1);
-
-    // _hitAnimation =
-    //     spriteSheet.createAnimation(0, from: 14, to: 16, stepTime: 0.1);
+        spriteSheet.createAnimation(0, from: 0, to: 1, stepTime: 0.1);
 
     this.animation = _runAnimation;
 
@@ -70,12 +68,12 @@ class Dino extends AnimationComponent {
 
     this.speedY += GRAVITY * t;
     this.y += this.speedY * t;
-    this.speedX -= 0.1;
     this.x += this.speedX;
 
     if (isOnGround()) {
       this.y = this.yMax;
       this.speedY = 0.0;
+      this.speedX -= 0.1;
     }
 
     if (this.x > this.xMax) {
@@ -105,21 +103,25 @@ class Dino extends AnimationComponent {
       _timer.start();
 
       life.value -= 1;
-      AudioManager.instance.playSfx('ES_Lion Roar Long - SFX Producer.mp3');
+      AudioManager.instance.playSfx('lion_hit.mp3');
       _isHit = true;
+      Timer(3);
+      this.y = 0;
+      this.x = this.width * (numberOfTilesAlongWidth - 1) / 2;
+      this.speedX = 0.0;
     }
   }
 
   void jump() {
     if (isOnGround()) {
       this.speedY = -500;
-      this.speedX = 4;
+      this.speedX = 1;
       AudioManager.instance.playSfx('jump14.wav');
     }
   }
 
-  @override
-  bool destroy() {
-    return _isHit;
-  }
+// @override
+// bool destroy() {
+//   return _isHit;
+// }
 }

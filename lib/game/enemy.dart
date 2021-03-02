@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 
 import 'constant.dart';
 
-enum EnemyType { Duck, Pig, Chicken, Lion }
+enum EnemyType { Bear, Deer, Elephant, Giraffe, Lion, Rabbit }
 
 class EnemyData {
   final String imageName;
@@ -35,41 +35,59 @@ class Enemy extends AnimationComponent {
   static Random _random = Random();
 
   static Map<EnemyType, EnemyData> _enemyDetails = {
-    EnemyType.Pig: EnemyData(
-      imageName: 'pig.png',
-      textureWidth: 36,
-      textureHeight: 30,
-      nColumns: 12,
-      nRows: 1,
-      canFly: true,
-      speed: 200,
-    ),
-    EnemyType.Duck: EnemyData(
-      imageName: 'duck.png',
-      textureWidth: 36,
-      textureHeight: 30,
-      nColumns: 10,
+    EnemyType.Bear: EnemyData(
+      imageName: 'savana/bear.png',
+      textureWidth: 275,
+      textureHeight: 306,
+      nColumns: 1,
       nRows: 1,
       canFly: false,
-      speed: 350,
+      speed: 80,
     ),
-    EnemyType.Chicken: EnemyData(
-      imageName: 'chicken.png',
-      textureWidth: 32,
-      textureHeight: 34,
-      nColumns: 14,
+    EnemyType.Deer: EnemyData(
+      imageName: 'savana/deer.png',
+      textureWidth: 282,
+      textureHeight: 292,
+      nColumns: 1,
       nRows: 1,
       canFly: false,
-      speed: 300,
+      speed: 120,
+    ),
+    EnemyType.Elephant: EnemyData(
+      imageName: 'savana/elephant.png',
+      textureWidth: 391,
+      textureHeight: 311,
+      nColumns: 1,
+      nRows: 1,
+      canFly: false,
+      speed: 70,
+    ),
+    EnemyType.Giraffe: EnemyData(
+      imageName: 'savana/giraffe.png',
+      textureWidth: 179,
+      textureHeight: 321,
+      nColumns: 1,
+      nRows: 1,
+      canFly: false,
+      speed: 100,
     ),
     EnemyType.Lion: EnemyData(
-      imageName: 'LionSprites.png',
-      textureWidth: 61,
-      textureHeight: 40,
-      nColumns: 6,
+      imageName: 'savana/lion.png',
+      textureWidth: 254,
+      textureHeight: 271,
+      nColumns: 1,
       nRows: 1,
       canFly: false,
-      speed: 200,
+      speed: 110,
+    ),
+    EnemyType.Rabbit: EnemyData(
+      imageName: 'savana/rabbit.png',
+      textureWidth: 185,
+      textureHeight: 182,
+      nColumns: 1,
+      nRows: 1,
+      canFly: false,
+      speed: 90,
     ),
   };
 
@@ -83,12 +101,10 @@ class Enemy extends AnimationComponent {
         rows: _myData.nRows);
 
     this.animation = spriteSheet.createAnimation(0,
-        from: 0, to: (_myData.nColumns - 1), stepTime: 0.1);
+        from: 0, to: (_myData.nColumns), stepTime: 0.1);
 
     this.anchor = Anchor.center;
   }
-
-
 
   @override
   void resize(Size size) {
@@ -99,7 +115,6 @@ class Enemy extends AnimationComponent {
     this.height = _myData.textureHeight * scaleFactor;
     this.width = _myData.textureWidth * scaleFactor;
     this.x = size.width + this.width;
-    this.x = 0;
     this.y = size.height - groundHeight - (this.height / 2);
 
     if (_myData.canFly && _random.nextBool()) {
@@ -110,7 +125,7 @@ class Enemy extends AnimationComponent {
   @override
   void update(double t) {
     super.update(t);
-    this.x += _myData.speed * t;
+    this.x -= _myData.speed * t;
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:dino_run/screens/game_play.dart';
-import 'package:dino_run/widgets/settings.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget {
@@ -16,7 +15,7 @@ class Menu extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Dino Run',
+          'Savana Friends',
           style: TextStyle(
             fontSize: 60.0,
             color: Colors.white,

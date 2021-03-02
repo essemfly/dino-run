@@ -29,13 +29,13 @@ class DinoGame extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   DinoGame() {
     _parallaxComponent = ParallaxComponent([
-      ParallaxImage('parallax/plx-1.png'),
-      ParallaxImage('parallax/plx-2.png'),
-      ParallaxImage('parallax/plx-3.png'),
-      ParallaxImage('parallax/plx-4.png'),
-      ParallaxImage('parallax/plx-5.png'),
-      ParallaxImage('parallax/plx-6.png', fill: LayerFill.none),
-    ], baseSpeed: Offset(100, 0), layerDelta: Offset(20, 0));
+      ParallaxImage('background/bg.png'),
+      ParallaxImage('background/hills@3x 1.png', fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 1.png', alignment: Alignment(-0.8, -1.0), fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 2.png', alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
+      ParallaxImage('background/trees@3x 1.png', fill: LayerFill.none),
+      ParallaxImage('background/land.png', fill: LayerFill.none),
+    ], baseSpeed: Offset(100, 0), layerDelta: Offset(100, 0));
 
     add(_parallaxComponent);
     _dino = Dino();
