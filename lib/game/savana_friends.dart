@@ -27,12 +27,14 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   bool _isGameOver = false;
   bool _isGamePaused = false;
 
-  DinoGame() {
+  SavanaFriends() {
     _parallaxComponent = ParallaxComponent([
       ParallaxImage('background/bg.png'),
       ParallaxImage('background/hills@3x 1.png', fill: LayerFill.none),
-      ParallaxImage('background/cloud@3x 1.png', alignment: Alignment(-0.8, -1.0), fill: LayerFill.none),
-      ParallaxImage('background/cloud@3x 2.png', alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 1.png',
+          alignment: Alignment(-0.8, -1.0), fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 2.png',
+          alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
       ParallaxImage('background/trees@3x 1.png', fill: LayerFill.none),
       ParallaxImage('background/land.png', fill: LayerFill.none),
     ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));

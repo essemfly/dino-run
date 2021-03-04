@@ -27,7 +27,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
   bool _isGameOver = false;
   bool _isGamePaused = false;
 
-  DinoGame() {
+  SavanaFight() {
     _parallaxComponent = ParallaxComponent([
       ParallaxImage('background/bg.png'),
       ParallaxImage('background/hills@3x 1.png', fill: LayerFill.none),

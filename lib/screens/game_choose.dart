@@ -89,7 +89,7 @@ class _GameChooseState extends State<GameChoose> {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     //I assumed you want to occupy the entire space of the card
-                    image: AssetImage('assets/images/savana/bear.png'),
+                    image: AssetImage(gameData.bgImagePath),
                   )),
               child: ListTile(
                 title: Text(
