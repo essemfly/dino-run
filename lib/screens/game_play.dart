@@ -1,13 +1,20 @@
-import 'package:dino_run/game/game.dart';
+import 'package:dino_run/screens/game_choose.dart';
 import 'package:flutter/material.dart';
 
-class GamePlay extends StatelessWidget {
-  final DinoGame _dinoGame = DinoGame();
+class GamePlay extends StatefulWidget {
+  GameData gameData;
 
+  GamePlay({this.gameData});
+
+  @override
+  _GamePlayState createState() => _GamePlayState();
+}
+
+class _GamePlayState extends State<GamePlay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _dinoGame.widget,
+      body: widget.gameData.gameClass.widget,
     );
   }
 }

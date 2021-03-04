@@ -51,6 +51,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/savana/
+    - assets/images/parallax/
     - assets/images/background/
     - assets/audio/
 

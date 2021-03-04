@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 
 import 'enemy.dart';
 
-class DinoGame extends BaseGame with TapDetector, HasWidgetsOverlay {
+class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   Dino _dino;
   ParallaxComponent _parallaxComponent;
   TextComponent _scoreText;
@@ -35,7 +35,7 @@ class DinoGame extends BaseGame with TapDetector, HasWidgetsOverlay {
       ParallaxImage('background/cloud@3x 2.png', alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
       ParallaxImage('background/trees@3x 1.png', fill: LayerFill.none),
       ParallaxImage('background/land.png', fill: LayerFill.none),
-    ], baseSpeed: Offset(100, 0), layerDelta: Offset(100, 0));
+    ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));
 
     add(_parallaxComponent);
     _dino = Dino();

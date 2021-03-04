@@ -13,8 +13,13 @@ Future<void> main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
-  await AudioManager.instance
-      .init(['8Bit Platformer Loop.wav', 'lion_hit.mp3', 'hurt7.wav', 'jump14.wav', 'ES_Lion Roar Long - SFX Producer.mp3']);
+  await AudioManager.instance.init([
+    '8Bit Platformer Loop.wav',
+    'lion_hit.mp3',
+    'hurt7.wav',
+    'jump14.wav',
+    'ES_Lion Roar Long - SFX Producer.mp3'
+  ]);
   runApp(MyApp());
 }
 
@@ -30,6 +35,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MainMenu(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
