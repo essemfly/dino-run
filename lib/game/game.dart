@@ -82,6 +82,7 @@ class DinoGame extends BaseGame with TapDetector, HasWidgetsOverlay {
     components.whereType<Enemy>().forEach((enemy) {
       if (_dino.distance(enemy) < 30) {
         _dino.hit();
+        enemy.reverse();
       }
     });
 

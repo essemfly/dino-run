@@ -125,11 +125,28 @@ class Enemy extends AnimationComponent {
   @override
   void update(double t) {
     super.update(t);
-    this.x -= _myData.speed * t;
+    if (this.x > 100) {
+      this.x -= _myData.speed * t;
+    }
   }
 
   @override
   bool destroy() {
     return (this.x > this.width * (numberOfTilesAlongWidth + 1));
+  }
+
+  void reverse() {
+    String reverseImageName = _myData.imageName.replaceFirst('.', '_flip.');
+    print(reverseImageName);
+    final spriteSheet = SpriteSheet(
+        imageName: reverseImageName,
+        textureWidth: _myData.textureWidth,
+        textureHeight: _myData.textureHeight,
+        columns: _myData.nColumns,
+        rows: _myData.nRows);
+
+    this.animation = spriteSheet.createAnimation(0,
+        from: 0, to: (_myData.nColumns), stepTime: 0.1);
+    this.x = this.x - 10;
   }
 }
