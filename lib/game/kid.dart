@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:dino_run/game/audio_manager.dart';
 import 'package:flame/anchor.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/foundation.dart';
 
 import 'constant.dart';
 
-class Dino extends AnimationComponent {
+class Kid extends AnimationComponent {
   Animation _runAnimation;
 
   // Animation _hitAnimation;
@@ -23,7 +22,7 @@ class Dino extends AnimationComponent {
 
   ValueNotifier<int> life;
 
-  Dino() : super.empty() {
+  Kid() : super.empty() {
     // 0 - 3 = idle
     // 4 - 10 = run
     // 11 - 13 = kick

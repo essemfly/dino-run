@@ -8,9 +8,66 @@ import 'package:flutter/foundation.dart';
 
 import 'constant.dart';
 
-enum EnemyType { Bear, Deer, Elephant, Giraffe, Lion, Rabbit }
+enum AnimalType { Bear, Deer, Elephant, Giraffe, Lion, Rabbit }
 
-class EnemyData {
+Map<AnimalType, AnimalData> _enemyDetails = {
+  AnimalType.Bear: AnimalData(
+    imageName: 'savana/bear.png',
+    textureWidth: 275,
+    textureHeight: 306,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 80,
+  ),
+  AnimalType.Deer: AnimalData(
+    imageName: 'savana/deer.png',
+    textureWidth: 282,
+    textureHeight: 292,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 120,
+  ),
+  AnimalType.Elephant: AnimalData(
+    imageName: 'savana/elephant.png',
+    textureWidth: 391,
+    textureHeight: 311,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 70,
+  ),
+  AnimalType.Giraffe: AnimalData(
+    imageName: 'savana/giraffe.png',
+    textureWidth: 179,
+    textureHeight: 321,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 100,
+  ),
+  AnimalType.Lion: AnimalData(
+    imageName: 'savana/lion.png',
+    textureWidth: 254,
+    textureHeight: 271,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 110,
+  ),
+  AnimalType.Rabbit: AnimalData(
+    imageName: 'savana/rabbit.png',
+    textureWidth: 185,
+    textureHeight: 182,
+    nColumns: 1,
+    nRows: 1,
+    canFly: false,
+    speed: 90,
+  ),
+};
+
+class AnimalData {
   final String imageName;
   final int textureWidth;
   final int textureHeight;
@@ -19,7 +76,7 @@ class EnemyData {
   final bool canFly;
   final int speed;
 
-  EnemyData({
+  AnimalData({
     @required this.imageName,
     @required this.textureWidth,
     @required this.textureHeight,
@@ -30,68 +87,11 @@ class EnemyData {
   });
 }
 
-class Enemy extends AnimationComponent {
-  EnemyData _myData;
+class Animal extends AnimationComponent {
+  AnimalData _myData;
   static Random _random = Random();
 
-  static Map<EnemyType, EnemyData> _enemyDetails = {
-    EnemyType.Bear: EnemyData(
-      imageName: 'savana/bear.png',
-      textureWidth: 275,
-      textureHeight: 306,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 80,
-    ),
-    EnemyType.Deer: EnemyData(
-      imageName: 'savana/deer.png',
-      textureWidth: 282,
-      textureHeight: 292,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 120,
-    ),
-    EnemyType.Elephant: EnemyData(
-      imageName: 'savana/elephant.png',
-      textureWidth: 391,
-      textureHeight: 311,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 70,
-    ),
-    EnemyType.Giraffe: EnemyData(
-      imageName: 'savana/giraffe.png',
-      textureWidth: 179,
-      textureHeight: 321,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 100,
-    ),
-    EnemyType.Lion: EnemyData(
-      imageName: 'savana/lion.png',
-      textureWidth: 254,
-      textureHeight: 271,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 110,
-    ),
-    EnemyType.Rabbit: EnemyData(
-      imageName: 'savana/rabbit.png',
-      textureWidth: 185,
-      textureHeight: 182,
-      nColumns: 1,
-      nRows: 1,
-      canFly: false,
-      speed: 90,
-    ),
-  };
-
-  Enemy(EnemyType enemyType) : super.empty() {
+  Animal(AnimalType enemyType) : super.empty() {
     _myData = _enemyDetails[enemyType];
     final spriteSheet = SpriteSheet(
         imageName: _myData.imageName,

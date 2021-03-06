@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:dino_run/game/audio_manager.dart';
-import 'package:dino_run/game/dino.dart';
+import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/game/enemy_manager.dart';
 import 'package:dino_run/widgets/game_over_menu.dart';
 import 'package:dino_run/widgets/hud.dart';
@@ -15,10 +15,10 @@ import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 
-import 'enemy.dart';
+import 'animals.dart';
 
 class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
-  Dino _dino;
+  Kid _dino;
   ParallaxComponent _parallaxComponent;
   TextComponent _scoreText;
   double _elapsedTime = 0.0;
@@ -38,7 +38,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
     ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));
 
     add(_parallaxComponent);
-    _dino = Dino();
+    _dino = Kid();
     add(_dino);
 
     _enemyManager = EnemyManager();
@@ -79,7 +79,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
       _scoreText.text = score.toString();
     }
 
-    components.whereType<Enemy>().forEach((enemy) {
+    components.whereType<Animal>().forEach((enemy) {
       if (_dino.distance(enemy) < 30) {
         _dino.hit();
         enemy.reverse();
@@ -138,7 +138,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
     _dino.run();
     _enemyManager.reset();
 
-    components.whereType<Enemy>().forEach((enemy) {
+    components.whereType<Animal>().forEach((enemy) {
       this.markToRemove(enemy);
     });
 

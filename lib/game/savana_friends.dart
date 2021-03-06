@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:dino_run/game/audio_manager.dart';
-import 'package:dino_run/game/dino.dart';
-import 'package:dino_run/game/enemy_manager.dart';
+import 'package:dino_run/game/friends_manager.dart';
+import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/widgets/game_over_menu.dart';
 import 'package:dino_run/widgets/hud.dart';
 import 'package:dino_run/widgets/pause_menu.dart';
@@ -15,15 +15,15 @@ import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 
-import 'enemy.dart';
+import 'animals.dart';
 
 class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
-  Dino _dino;
+  Kid _kid;
   ParallaxComponent _parallaxComponent;
   TextComponent _scoreText;
   double _elapsedTime = 0.0;
   int score;
-  EnemyManager _enemyManager;
+  FriendsManager _friendManager;
   bool _isGameOver = false;
   bool _isGamePaused = false;
 
@@ -40,18 +40,18 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
     ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));
 
     add(_parallaxComponent);
-    _dino = Dino();
-    add(_dino);
+    _kid = Kid();
+    add(_kid);
 
-    _enemyManager = EnemyManager();
-    add(_enemyManager);
+    _friendManager = FriendsManager();
+    add(_friendManager);
 
     score = 0;
     _scoreText = TextComponent(score.toString(),
         config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
     add(_scoreText);
 
-    addWidgetOverlay('Hud', HUD(onPausePressed: pauseGame, life: _dino.life));
+    addWidgetOverlay('Hud', HUD(onPausePressed: pauseGame, life: _kid.life));
 
     // AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
   }
@@ -67,7 +67,7 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
     if (!_isGameOver && !_isGamePaused) {
-      _dino.jump();
+      _kid.jump();
     }
   }
 
@@ -81,14 +81,14 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
       _scoreText.text = score.toString();
     }
 
-    components.whereType<Enemy>().forEach((enemy) {
-      if (_dino.distance(enemy) < 30) {
-        _dino.hit();
+    components.whereType<Animal>().forEach((enemy) {
+      if (_kid.distance(enemy) < 30) {
+        _kid.hit();
         enemy.reverse();
       }
     });
 
-    if (_dino.life.value <= 0) {
+    if (_kid.life.value <= 0) {
       gameOver();
     }
   }
@@ -136,11 +136,11 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   void reset() {
     this.score = 0;
-    _dino.life.value = 3;
-    _dino.run();
-    _enemyManager.reset();
+    _kid.life.value = 3;
+    _kid.run();
+    _friendManager.reset();
 
-    components.whereType<Enemy>().forEach((enemy) {
+    components.whereType<Animal>().forEach((enemy) {
       this.markToRemove(enemy);
     });
 
