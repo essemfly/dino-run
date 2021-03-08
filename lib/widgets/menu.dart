@@ -1,5 +1,4 @@
 import 'package:dino_run/screens/game_choose.dart';
-import 'package:dino_run/screens/game_play.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget {

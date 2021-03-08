@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:dino_run/game/audio_manager.dart';
 import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/game/enemy_manager.dart';
-import 'package:dino_run/widgets/game_over_menu.dart';
+import 'package:dino_run/widgets/fight_game_over_menu.dart';
 import 'package:dino_run/widgets/hud_fight.dart';
 import 'package:dino_run/widgets/pause_menu.dart';
 import 'package:flame/components/parallax_component.dart';
@@ -133,7 +133,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
     _isGameOver = true;
     pauseEngine();
     addWidgetOverlay(
-        'GameOverMenu', GameOverMenu(score: score, onRestartPressed: reset));
+        'GameOverMenu', FightGameOverMenu(score: score, onRestartPressed: reset));
     AudioManager.instance.pauseBgm();
   }
 

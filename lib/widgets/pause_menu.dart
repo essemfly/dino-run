@@ -1,4 +1,4 @@
-import 'package:dino_run/screens/game_choose.dart';
+import 'package:dino_run/screens/main_menu.dart';
 import 'package:flutter/material.dart';
 
 class PauseMenu extends StatelessWidget {
@@ -45,7 +45,7 @@ class PauseMenu extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => GameChoose()));
+                            builder: (context) => MainMenu()));
                       }),
                   IconButton(
                       icon: Icon(

@@ -16,6 +16,7 @@ enum AnimalStatus { Rushing, Positioning, Following }
 
 Map<AnimalType, AnimalData> _enemyDetails = {
   AnimalType.Bear: AnimalData(
+    name: AnimalType.Bear,
     imageName: 'savana/bear.png',
     textureWidth: 275,
     textureHeight: 306,
@@ -27,6 +28,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     growlSoundPath: 'animals/Bear-sound.mp3',
   ),
   AnimalType.Deer: AnimalData(
+    name: AnimalType.Deer,
     imageName: 'savana/deer.png',
     textureWidth: 282,
     textureHeight: 292,
@@ -38,6 +40,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     growlSoundPath: 'animals/Deer-sound.mp3',
   ),
   AnimalType.Elephant: AnimalData(
+    name: AnimalType.Elephant,
     imageName: 'savana/elephant.png',
     textureWidth: 391,
     textureHeight: 311,
@@ -49,6 +52,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     growlSoundPath: 'animals/Elephant-sound.mp3',
   ),
   AnimalType.Giraffe: AnimalData(
+    name: AnimalType.Giraffe,
     imageName: 'savana/giraffe.png',
     textureWidth: 179,
     textureHeight: 321,
@@ -60,6 +64,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     growlSoundPath: 'animals/Giraffe-sound.mp3',
   ),
   AnimalType.Lion: AnimalData(
+    name: AnimalType.Lion,
     imageName: 'savana/lion.png',
     textureWidth: 254,
     textureHeight: 271,
@@ -71,6 +76,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     growlSoundPath: 'animals/Lion-sound.mp3',
   ),
   AnimalType.Rabbit: AnimalData(
+    name: AnimalType.Rabbit,
     imageName: 'savana/rabbit.png',
     textureWidth: 185,
     textureHeight: 182,
@@ -84,6 +90,7 @@ Map<AnimalType, AnimalData> _enemyDetails = {
 };
 
 class AnimalData {
+  final AnimalType name;
   final String imageName;
   final int textureWidth;
   final int textureHeight;
@@ -95,6 +102,7 @@ class AnimalData {
   final String growlSoundPath;
 
   AnimalData({
+    @required this.name,
     @required this.imageName,
     @required this.textureWidth,
     @required this.textureHeight,
@@ -156,6 +164,10 @@ class Animal extends AnimationComponent {
     }
   }
 
+  AnimalType getAnimalType() {
+    return this._myData.name;
+  }
+
   @override
   void update(double t) {
     super.update(t);
@@ -190,7 +202,7 @@ class Animal extends AnimationComponent {
 
   @override
   bool destroy() {
-    return (this.x > this.width * (numberOfTilesAlongWidth + 1));
+    return (this.x < -this.width);
   }
 
   void reverse() {

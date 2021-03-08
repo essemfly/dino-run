@@ -56,7 +56,7 @@ class Kid extends AnimationComponent {
   void resize(Size size) {
     super.resize(size);
     this.height = this.width = size.width / numberOfTilesAlongWidth;
-    this.x = size.width / numberOfTilesAlongWidth * 2;
+    this.x = size.width / numberOfTilesAlongWidth * 1.5;
     this.y =
         size.height - groundHeight - (this.height / 2) + dinoTopBottomSpacing;
     this.xMax = size.width;
@@ -111,7 +111,7 @@ class Kid extends AnimationComponent {
 
   void jump() {
     if (isOnGround()) {
-      this.speedY = -750;
+      this.speedY = -700;
       AudioManager.instance.playSfx('jump14.wav');
     }
   }
