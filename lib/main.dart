@@ -15,6 +15,12 @@ Future<void> main() async {
   Hive.init(dir.path);
 
   await AudioManager.instance.init([
+    'animals/Bear-sound.mp3',
+    'animals/Deer-sound.mp3',
+    'animals/Elephant-sound.mp3',
+    'animals/Giraffe-sound.mp3',
+    'animals/Lion-sound.mp3',
+    'animals/Rabbit-sound.mp3',
     '8Bit Platformer Loop.wav',
     'lion_hit.mp3',
     'hurt7.wav',

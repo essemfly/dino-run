@@ -26,7 +26,7 @@ class EnemyManager extends Component with HasGameRef<SavanaFight> {
     final randomNumber = _random.nextInt(AnimalType.values.length);
     final randomEnemyType = AnimalType.values.elementAt(randomNumber);
     final newEnemy = Animal(randomEnemyType);
-    AudioManager.instance.playSfx('ES_Lion Roar Long - SFX Producer.mp3');
+    newEnemy.appear();
     gameRef.addLater(newEnemy);
   }
 

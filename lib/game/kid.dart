@@ -99,7 +99,7 @@ class Kid extends AnimationComponent {
 
   void jump() {
     if (isOnGround()) {
-      this.speedY = -500;
+      this.speedY = -750;
       AudioManager.instance.playSfx('jump14.wav');
     }
   }

@@ -1,12 +1,15 @@
+import 'package:dino_run/screens/game_choose.dart';
 import 'package:flutter/material.dart';
 
 class PauseMenu extends StatelessWidget {
   final Function onResumePressed;
+  final Function onResetPressed;
 
   const PauseMenu({
     Key key,
+    @required this.onResetPressed,
     @required this.onResumePressed,
-  })  : assert(onResumePressed != null),
+  })  : assert(onResumePressed != null, onResetPressed != null),
         super(key: key);
 
   @override
@@ -30,15 +33,31 @@ class PauseMenu extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              IconButton(
-                  icon: Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                  onPressed: () {
-                    onResumePressed.call();
-                  })
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => GameChoose()));
+                      }),
+                  IconButton(
+                      icon: Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        onResumePressed.call();
+                      }),
+                ],
+              ),
             ],
           ),
         ),

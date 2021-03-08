@@ -7,27 +7,29 @@ import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/time.dart';
 
-import 'audio_manager.dart';
-
 class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   Random _random;
   Timer _timer;
-  int _spawnLevel;
+  int _counts;
 
   FriendsManager() {
     _random = Random();
-    _spawnLevel = 0;
     _timer = Timer(4, repeat: true, callback: () {
       spawnRandomEnemy();
     });
   }
 
   void spawnRandomEnemy() {
-    final randomNumber = _random.nextInt(AnimalType.values.length);
-    final randomEnemyType = AnimalType.values.elementAt(randomNumber);
-    final newEnemy = Animal(randomEnemyType);
-    AudioManager.instance.playSfx('ES_Lion Roar Long - SFX Producer.mp3');
-    gameRef.addLater(newEnemy);
+    if (_counts < 10) {
+      final randomNumber = _random.nextInt(AnimalType.values.length);
+      final randomEnemyType = AnimalType.values.elementAt(randomNumber);
+      final newAnimal = Animal(randomEnemyType);
+      gameRef.addLater(newAnimal);
+      newAnimal.appear();
+      _counts += 1;
+    } else {
+      _timer.stop();
+    }
   }
 
   @override
@@ -37,33 +39,25 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   }
 
   @override
-  void render(Canvas c) {
-    // TODO: implement render
+  void resize(Size size) {
+    super.resize(size);
+  }
+
+  void reset() {
+    _counts = 0;
+    _timer = Timer(4, repeat: true, callback: () {
+      spawnRandomEnemy();
+    });
+    _timer.start();
   }
 
   @override
   void update(double t) {
     _timer.update(t);
-
-    var newSpawnLevel = (gameRef.score ~/ 500);
-    if (_spawnLevel < newSpawnLevel) {
-      _spawnLevel = newSpawnLevel;
-
-      var newWaitTime = (4 / (1 + (0.1 * _spawnLevel)));
-
-      _timer.stop();
-      _timer = Timer(newWaitTime, repeat: true, callback: () {
-        spawnRandomEnemy();
-      });
-      _timer.start();
-    }
   }
 
-  void reset() {
-    _spawnLevel = 0;
-    _timer = Timer(4, repeat: true, callback: () {
-      spawnRandomEnemy();
-    });
-    _timer.start();
+  @override
+  void render(Canvas c) {
+    // TODO: implement render
   }
 }

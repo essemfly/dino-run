@@ -2,13 +2,16 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/anchor.dart';
+import 'package:flame/animation.dart';
 import 'package:flame/components/animation_component.dart';
 import 'package:flame/spritesheet.dart';
 import 'package:flutter/foundation.dart';
 
+import 'audio_manager.dart';
 import 'constant.dart';
 
 enum AnimalType { Bear, Deer, Elephant, Giraffe, Lion, Rabbit }
+enum AnimalStatus { Rushing, Following }
 
 Map<AnimalType, AnimalData> _enemyDetails = {
   AnimalType.Bear: AnimalData(
@@ -18,7 +21,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 80,
+    speed: 220,
+    appearSoundPath: 'animals/Bear-sound.mp3',
+    growlSoundPath: 'animals/Bear-sound.mp3',
   ),
   AnimalType.Deer: AnimalData(
     imageName: 'savana/deer.png',
@@ -27,7 +32,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 120,
+    speed: 230,
+    appearSoundPath: 'animals/Deer-sound.mp3',
+    growlSoundPath: 'animals/Deer-sound.mp3',
   ),
   AnimalType.Elephant: AnimalData(
     imageName: 'savana/elephant.png',
@@ -36,7 +43,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 70,
+    speed: 240,
+    appearSoundPath: 'animals/Elephant-sound.mp3',
+    growlSoundPath: 'animals/Elephant-sound.mp3',
   ),
   AnimalType.Giraffe: AnimalData(
     imageName: 'savana/giraffe.png',
@@ -45,7 +54,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 100,
+    speed: 250,
+    appearSoundPath: 'animals/Giraffe-sound.mp3',
+    growlSoundPath: 'animals/Giraffe-sound.mp3',
   ),
   AnimalType.Lion: AnimalData(
     imageName: 'savana/lion.png',
@@ -54,7 +65,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 110,
+    speed: 260,
+    appearSoundPath: 'animals/Lion-sound.mp3',
+    growlSoundPath: 'animals/Lion-sound.mp3',
   ),
   AnimalType.Rabbit: AnimalData(
     imageName: 'savana/rabbit.png',
@@ -63,7 +76,9 @@ Map<AnimalType, AnimalData> _enemyDetails = {
     nColumns: 1,
     nRows: 1,
     canFly: false,
-    speed: 90,
+    speed: 270,
+    appearSoundPath: 'animals/Rabbit-sound.mp3',
+    growlSoundPath: 'animals/Rabbit-sound.mp3',
   ),
 };
 
@@ -75,6 +90,8 @@ class AnimalData {
   final int nRows;
   final bool canFly;
   final int speed;
+  final String appearSoundPath;
+  final String growlSoundPath;
 
   AnimalData({
     @required this.imageName,
@@ -84,12 +101,20 @@ class AnimalData {
     @required this.nRows,
     @required this.canFly,
     @required this.speed,
+    @required this.appearSoundPath,
+    @required this.growlSoundPath,
   });
 }
 
 class Animal extends AnimationComponent {
   AnimalData _myData;
   static Random _random = Random();
+  Animation actionAnimation;
+  double speedX = 0.0;
+  double speedY = 0.0;
+  double yMax = 0.0;
+  double xMax = 0.0;
+  AnimalStatus status = AnimalStatus.Rushing;
 
   Animal(AnimalType enemyType) : super.empty() {
     _myData = _enemyDetails[enemyType];
@@ -103,6 +128,9 @@ class Animal extends AnimationComponent {
     this.animation = spriteSheet.createAnimation(0,
         from: 0, to: (_myData.nColumns), stepTime: 0.1);
 
+    this.actionAnimation = spriteSheet.createAnimation(0,
+        from: 0, to: (_myData.nColumns), stepTime: 0.1);
+
     this.anchor = Anchor.center;
   }
 
@@ -114,8 +142,12 @@ class Animal extends AnimationComponent {
         (size.width / numberOfTilesAlongWidth) / _myData.textureWidth;
     this.height = _myData.textureHeight * scaleFactor;
     this.width = _myData.textureWidth * scaleFactor;
-    this.x = size.width + this.width;
-    this.y = size.height - groundHeight - (this.height / 2);
+
+    setLocation(size.width + this.width,
+        size.height - groundHeight - (this.height / 2));
+
+    this.xMax = size.width;
+    this.yMax = this.y;
 
     if (_myData.canFly && _random.nextBool()) {
       this.y -= this.height;
@@ -125,9 +157,19 @@ class Animal extends AnimationComponent {
   @override
   void update(double t) {
     super.update(t);
-    if (this.x > 100) {
-      this.x -= _myData.speed * t;
+    this.x -= _myData.speed * t;
+
+    this.speedY += GRAVITY * t;
+    this.y += this.speedY * t;
+
+    if (isOnGround()) {
+      this.y = this.yMax;
+      this.speedY = 0.0;
     }
+  }
+
+  bool isOnGround() {
+    return (this.y >= this.yMax);
   }
 
   @override
@@ -148,5 +190,25 @@ class Animal extends AnimationComponent {
     this.animation = spriteSheet.createAnimation(0,
         from: 0, to: (_myData.nColumns), stepTime: 0.1);
     this.x = this.x - 10;
+    this.status = AnimalStatus.Following;
+  }
+
+  void setLocation(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  void moveLocation(double x, double y) {}
+
+  void appear() {
+    AudioManager.instance.playSfx(_myData.appearSoundPath);
+  }
+
+  void growl() {
+    AudioManager.instance.playSfx(_myData.growlSoundPath);
+  }
+
+  void jump() {
+    this.speedY = -500;
   }
 }

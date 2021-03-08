@@ -31,11 +31,13 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
     _parallaxComponent = ParallaxComponent([
       ParallaxImage('background/bg.png'),
       ParallaxImage('background/hills@3x 1.png', fill: LayerFill.none),
-      ParallaxImage('background/cloud@3x 1.png', alignment: Alignment(-0.8, -1.0), fill: LayerFill.none),
-      ParallaxImage('background/cloud@3x 2.png', alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 1.png',
+          alignment: Alignment(-0.8, -1.0), fill: LayerFill.none),
+      ParallaxImage('background/cloud@3x 2.png',
+          alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
       ParallaxImage('background/trees@3x 1.png', fill: LayerFill.none),
       ParallaxImage('background/land.png', fill: LayerFill.none),
-    ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));
+    ], baseSpeed: Offset(50, 0), layerDelta: Offset(25, 0));
 
     add(_parallaxComponent);
     _dino = Kid();
@@ -51,7 +53,7 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
 
     addWidgetOverlay('Hud', HUD(onPausePressed: pauseGame, life: _dino.life));
 
-    // AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
+    AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
   }
 
   @override
@@ -80,9 +82,8 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
     }
 
     components.whereType<Animal>().forEach((enemy) {
-      if (_dino.distance(enemy) < 30) {
+      if (_dino.distance(enemy) < 50) {
         _dino.hit();
-        enemy.reverse();
       }
     });
 

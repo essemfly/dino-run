@@ -24,7 +24,7 @@ class HUD extends StatelessWidget {
             valueListenable: life,
             builder: (BuildContext context, value, Widget child) {
               final list = List<Widget>();
-              for (int i = 0; i < 5; ++i) {
+              for (int i = 0; i < 3; ++i) {
                 list.add(
                   Icon(
                     (i < value) ? Icons.favorite : Icons.favorite_border,
@@ -32,8 +32,11 @@ class HUD extends StatelessWidget {
                   ),
                 );
               }
-              return Row(
-                children: list,
+              return Padding(
+                padding: EdgeInsets.only(right: 30),
+                child: Row(
+                  children: list,
+                ),
               );
             })
       ],

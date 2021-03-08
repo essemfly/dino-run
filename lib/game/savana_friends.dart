@@ -67,7 +67,26 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   void onTapDown(TapDownDetails details) {
     super.onTapDown(details);
     if (!_isGameOver && !_isGamePaused) {
-      _kid.jump();
+      bool animalClicked = false;
+      components.whereType<Animal>().forEach((animal) {
+        if (animal.toRect().contains(details.globalPosition)) {
+          animalClicked = true;
+          if (animal.status == AnimalStatus.Rushing) {
+            animal.jump();
+          } else {
+            // Case for Following Animals
+            components.whereType<Animal>().forEach((animal) {
+              if (animal.status == AnimalStatus.Following) {
+                animal.jump();
+              }
+            });
+          }
+        }
+      });
+
+      if (!animalClicked) {
+        _kid.jump();
+      }
     }
   }
 
