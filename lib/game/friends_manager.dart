@@ -6,16 +6,12 @@ import 'package:dino_run/game/savana_friends.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/components/text_component.dart';
-import 'package:flame/position.dart';
-import 'package:flame/text_config.dart';
 import 'package:flame/time.dart';
 import 'package:flutter/material.dart';
 
 class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   Random _random;
   Timer _timer;
-  int _counts = 0;
-  TextComponent _countsText;
 
   FriendsManager() {
     _random = Random();
@@ -25,19 +21,15 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   }
 
   void spawnRandomAnimal() {
-    // if (_counts < 10) {
-    final randomNumber = _random.nextInt(AnimalType.values.length);
-    final randomEnemyType = AnimalType.values.elementAt(randomNumber);
-    final newAnimal = Animal(randomEnemyType);
-    gameRef.addLater(newAnimal);
-    newAnimal.appear();
-
-    _counts += 1;
-    gameRef.score = _counts;
-    gameRef.scoreText.text = gameRef.score.toString();
-    // } else {
-    //   _timer.stop();
-    // }
+    if (gameRef.score < 10) {
+      final randomNumber = _random.nextInt(AnimalType.values.length);
+      final randomEnemyType = AnimalType.values.elementAt(randomNumber);
+      final newAnimal = Animal(randomEnemyType);
+      gameRef.addLater(newAnimal);
+      newAnimal.appear();
+    } else {
+      _timer.stop();
+    }
   }
 
   @override
@@ -52,7 +44,6 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   }
 
   void reset() {
-    _counts = 0;
     _timer = Timer(3, repeat: true, callback: () {
       spawnRandomAnimal();
     });

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:dino_run/game/savana_friends.dart';
 import 'package:flame/anchor.dart';
 import 'package:flame/animation.dart';
 import 'package:flame/components/animation_component.dart';
@@ -11,7 +12,7 @@ import 'audio_manager.dart';
 import 'constant.dart';
 
 enum AnimalType { Bear, Deer, Elephant, Giraffe, Lion, Rabbit }
-enum AnimalStatus { Rushing, Following }
+enum AnimalStatus { Rushing, Positioning, Following }
 
 Map<AnimalType, AnimalData> _enemyDetails = {
   AnimalType.Bear: AnimalData(
@@ -115,6 +116,7 @@ class Animal extends AnimationComponent {
   double yMax = 0.0;
   double xMax = 0.0;
   AnimalStatus status = AnimalStatus.Rushing;
+  double goalX = 0.0;
 
   Animal(AnimalType enemyType) : super.empty() {
     _myData = _enemyDetails[enemyType];
@@ -157,7 +159,21 @@ class Animal extends AnimationComponent {
   @override
   void update(double t) {
     super.update(t);
-    this.x -= _myData.speed * t;
+    if (this.status == AnimalStatus.Rushing) {
+      this.x -= _myData.speed * t;
+    } else if (this.status == AnimalStatus.Positioning) {
+      if (this.speedX != 0.0) {
+        this.x += this.speedX;
+        if (this.speedX < 0 && this.x < this.goalX) {
+          this.speedX = 0.0;
+          this.reverse();
+        }
+        if (this.speedX > 0 && this.x > this.goalX) {
+          this.speedX = 0.0;
+          this.reverse();
+        }
+      }
+    }
 
     this.speedY += GRAVITY * t;
     this.y += this.speedY * t;
@@ -178,6 +194,7 @@ class Animal extends AnimationComponent {
   }
 
   void reverse() {
+    this.status = AnimalStatus.Following;
     String reverseImageName = _myData.imageName.replaceFirst('.', '_flip.');
     print(reverseImageName);
     final spriteSheet = SpriteSheet(
@@ -189,8 +206,6 @@ class Animal extends AnimationComponent {
 
     this.animation = spriteSheet.createAnimation(0,
         from: 0, to: (_myData.nColumns), stepTime: 0.1);
-    this.x = this.x - 10;
-    this.status = AnimalStatus.Following;
   }
 
   void setLocation(double x, double y) {
@@ -198,7 +213,15 @@ class Animal extends AnimationComponent {
     this.y = y;
   }
 
-  void moveLocation(double x, double y) {}
+  void moveLocation(double x) {
+    this.status = AnimalStatus.Positioning;
+    this.goalX = x;
+    if (this.x > x) {
+      this.speedX = -10.0;
+    } else {
+      this.speedX = 10.0;
+    }
+  }
 
   void appear() {
     AudioManager.instance.playSfx(_myData.appearSoundPath);

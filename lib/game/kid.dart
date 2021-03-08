@@ -16,9 +16,11 @@ class Kid extends AnimationComponent {
   Timer _timer;
   bool _isHit;
 
+  double speedX = 0.0;
   double speedY = 0.0;
   double yMax = 0.0;
   double xMax = 0.0;
+  double goalX = 0.0;
 
   ValueNotifier<int> life;
 
@@ -65,6 +67,16 @@ class Kid extends AnimationComponent {
   void update(double t) {
     super.update(t);
 
+    if (this.speedX != 0.0) {
+      this.x += this.speedX;
+      if (this.speedX < 0 && this.x < this.goalX) {
+        this.speedX = 0.0;
+      }
+      if (this.speedX > 0 && this.x > this.goalX) {
+        this.speedX = 0.0;
+      }
+    }
+
     this.speedY += GRAVITY * t;
     this.y += this.speedY * t;
 
@@ -101,6 +113,15 @@ class Kid extends AnimationComponent {
     if (isOnGround()) {
       this.speedY = -750;
       AudioManager.instance.playSfx('jump14.wav');
+    }
+  }
+
+  void moveLocation(double x) {
+    this.goalX = x;
+    if (this.x > x) {
+      this.speedX = -10;
+    } else {
+      this.speedX = 10;
     }
   }
 

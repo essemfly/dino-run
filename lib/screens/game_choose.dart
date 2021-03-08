@@ -64,7 +64,7 @@ class _GameChooseState extends State<GameChoose> {
         child: Stack(
           children: <Widget>[
             Container(
-              width: 300,
+              width: MediaQuery.of(context).size.width / 2.0,
               decoration: BoxDecoration(
                   color: Colors.white,
                   gradient: LinearGradient(
@@ -80,7 +80,7 @@ class _GameChooseState extends State<GameChoose> {
                       ])),
             ),
             Container(
-              width: 300,
+              width: MediaQuery.of(context).size.width / 2.0,
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                   color: Color((Random().nextDouble() * 0xFFFFFF).toInt())

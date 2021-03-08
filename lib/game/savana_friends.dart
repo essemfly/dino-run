@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dino_run/game/audio_manager.dart';
+import 'package:dino_run/game/constant.dart';
 import 'package:dino_run/game/friends_manager.dart';
 import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/widgets/game_over_menu.dart';
@@ -25,6 +26,7 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   FriendsManager _friendManager;
   bool _isGameOver = false;
   bool _isGamePaused = false;
+  double tileSize;
 
   SavanaFriends();
 
@@ -61,6 +63,7 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   @override
   void resize(Size size) {
     super.resize(size);
+    this.tileSize = size.width / numberOfTilesAlongWidth;
     scoreText
         .setByPosition(Position((size.width / 2) - (scoreText.width / 2), 0));
   }
@@ -95,11 +98,19 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   @override
   void update(double t) {
     super.update(t);
+    components.whereType<Animal>().forEach((animal) {
+      if (animal.status == AnimalStatus.Rushing) {
+        if (_kid.distance(animal) < 70) {
+          score += 1;
+          scoreText.text = score.toString();
 
-    components.whereType<Animal>().forEach((enemy) {
-      if (_kid.distance(enemy) < 30) {
-        _kid.hit();
-        enemy.reverse();
+
+          _kid.moveLocation(_kid.x + this.tileSize / 2);
+          animal.moveLocation(_kid.x - this.tileSize / 1.8);
+        }
+      }
+      else if (animal.status == AnimalStatus.Positioning) {
+
       }
     });
   }
