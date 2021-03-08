@@ -17,7 +17,7 @@ class EnemyManager extends Component with HasGameRef<SavanaFight> {
   EnemyManager() {
     _random = Random();
     _spawnLevel = 0;
-    _timer = Timer(4, repeat: true, callback: () {
+    _timer = Timer(3, repeat: true, callback: () {
       spawnRandomEnemy();
     });
   }

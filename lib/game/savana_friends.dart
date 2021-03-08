@@ -4,15 +4,12 @@ import 'package:dino_run/game/audio_manager.dart';
 import 'package:dino_run/game/friends_manager.dart';
 import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/widgets/game_over_menu.dart';
-import 'package:dino_run/widgets/hud.dart';
+import 'package:dino_run/widgets/hud_friends.dart';
 import 'package:dino_run/widgets/pause_menu.dart';
 import 'package:flame/components/parallax_component.dart';
-import 'package:flame/components/text_component.dart';
 import 'package:flame/game.dart';
 import 'package:flame/game/base_game.dart';
 import 'package:flame/gestures.dart';
-import 'package:flame/position.dart';
-import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 
 import 'animals.dart';
@@ -20,8 +17,6 @@ import 'animals.dart';
 class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   Kid _kid;
   ParallaxComponent _parallaxComponent;
-  TextComponent _scoreText;
-  double _elapsedTime = 0.0;
   int score;
   FriendsManager _friendManager;
   bool _isGameOver = false;
@@ -37,7 +32,7 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
           alignment: Alignment(0.3, -0.9), fill: LayerFill.none),
       ParallaxImage('background/trees@3x 1.png', fill: LayerFill.none),
       ParallaxImage('background/land.png', fill: LayerFill.none),
-    ], baseSpeed: Offset(40, 0), layerDelta: Offset(10, 0));
+    ], baseSpeed: Offset(50, 0), layerDelta: Offset(25, 0));
 
     add(_parallaxComponent);
     _kid = Kid();
@@ -46,21 +41,14 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
     _friendManager = FriendsManager();
     add(_friendManager);
 
-    score = 0;
-    _scoreText = TextComponent(score.toString(),
-        config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
-    add(_scoreText);
+    addWidgetOverlay('Hud', HUDFriends(onPausePressed: pauseGame));
 
-    addWidgetOverlay('Hud', HUD(onPausePressed: pauseGame, life: _kid.life));
-
-    // AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
+    AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
   }
 
   @override
   void resize(Size size) {
     super.resize(size);
-    _scoreText
-        .setByPosition(Position((size.width / 2) - (_scoreText.width / 2), 0));
   }
 
   @override
@@ -93,12 +81,6 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
   @override
   void update(double t) {
     super.update(t);
-    _elapsedTime += t;
-    if (_elapsedTime > (1 / 60)) {
-      _elapsedTime = 0.0;
-      score += 1;
-      _scoreText.text = score.toString();
-    }
 
     components.whereType<Animal>().forEach((enemy) {
       if (_kid.distance(enemy) < 30) {
@@ -106,10 +88,6 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
         enemy.reverse();
       }
     });
-
-    if (_kid.life.value <= 0) {
-      gameOver();
-    }
   }
 
   @override
@@ -155,7 +133,6 @@ class SavanaFriends extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   void reset() {
     this.score = 0;
-    _kid.life.value = 3;
     _kid.run();
     _friendManager.reset();
 

@@ -5,12 +5,17 @@ import 'package:dino_run/game/animals.dart';
 import 'package:dino_run/game/savana_friends.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
+import 'package:flame/components/text_component.dart';
+import 'package:flame/position.dart';
+import 'package:flame/text_config.dart';
 import 'package:flame/time.dart';
+import 'package:flutter/material.dart';
 
 class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   Random _random;
   Timer _timer;
   int _counts;
+  TextComponent _countsText;
 
   FriendsManager() {
     _random = Random();
@@ -26,7 +31,11 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
       final newAnimal = Animal(randomEnemyType);
       gameRef.addLater(newAnimal);
       newAnimal.appear();
+
       _counts += 1;
+      _countsText = TextComponent(_counts.toString(),
+          config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
+      gameRef.add(_countsText);
     } else {
       _timer.stop();
     }
@@ -41,6 +50,8 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   @override
   void resize(Size size) {
     super.resize(size);
+    _countsText
+        .setByPosition(Position((size.width / 2) - (_countsText.width / 2), 0));
   }
 
   void reset() {

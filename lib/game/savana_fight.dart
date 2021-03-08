@@ -4,7 +4,7 @@ import 'package:dino_run/game/audio_manager.dart';
 import 'package:dino_run/game/kid.dart';
 import 'package:dino_run/game/enemy_manager.dart';
 import 'package:dino_run/widgets/game_over_menu.dart';
-import 'package:dino_run/widgets/hud.dart';
+import 'package:dino_run/widgets/hud_fight.dart';
 import 'package:dino_run/widgets/pause_menu.dart';
 import 'package:flame/components/parallax_component.dart';
 import 'package:flame/components/text_component.dart';
@@ -51,7 +51,8 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
         config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
     add(_scoreText);
 
-    addWidgetOverlay('Hud', HUD(onPausePressed: pauseGame, life: _dino.life));
+    addWidgetOverlay(
+        'Hud', HUDFight(onPausePressed: pauseGame, life: _dino.life));
 
     AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
   }

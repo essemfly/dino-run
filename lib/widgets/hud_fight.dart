@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HUD extends StatelessWidget {
+class HUDFight extends StatelessWidget {
   final Function onPausePressed;
   final ValueNotifier<int> life;
 
-  const HUD({Key key, @required this.onPausePressed, @required this.life})
+  const HUDFight({Key key, @required this.onPausePressed, @required this.life})
       : assert(onPausePressed != null),
         assert(life != null),
         super(key: key);
