@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:dino_run/game/savana_fight.dart';
 import 'package:dino_run/game/savana_friends.dart';
 import 'package:dino_run/screens/game_play.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 enum GameType { Friends, Fight }
@@ -12,7 +11,7 @@ class GameData {
   final String subtitle;
   final IconData icons;
   final String bgImagePath;
-  final BaseGame gameClass;
+  final gameClass;
 
   GameData(
       {this.title,

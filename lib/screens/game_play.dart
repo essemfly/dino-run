@@ -13,6 +13,7 @@ class GamePlay extends StatefulWidget {
 class _GamePlayState extends State<GamePlay> {
   @override
   Widget build(BuildContext context) {
+    widget.gameData.gameClass.start();
     return Scaffold(
       body: widget.gameData.gameClass.widget,
     );

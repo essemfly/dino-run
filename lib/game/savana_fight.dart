@@ -27,7 +27,9 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
   bool _isGameOver = false;
   bool _isGamePaused = false;
 
-  SavanaFight() {
+  SavanaFight();
+
+  void start() {
     _parallaxComponent = ParallaxComponent([
       ParallaxImage('background/bg.png'),
       ParallaxImage('background/hills@3x 1.png', fill: LayerFill.none),
@@ -48,11 +50,12 @@ class SavanaFight extends BaseGame with TapDetector, HasWidgetsOverlay {
 
     score = 0;
     _scoreText = TextComponent(score.toString(),
-        config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
+        config: TextConfig(
+            fontSize: 40, fontFamily: 'Audiowide', color: Colors.white));
     add(_scoreText);
 
     addWidgetOverlay(
-        'Hud', HUDFight(onPausePressed: pauseGame, life: _dino.life));
+        'HudFight', HUDFight(onPausePressed: pauseGame, life: _dino.life));
 
     AudioManager.instance.startBgm('8Bit Platformer Loop.wav');
   }

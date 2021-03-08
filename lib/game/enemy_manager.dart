@@ -7,8 +7,6 @@ import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/time.dart';
 
-import 'audio_manager.dart';
-
 class EnemyManager extends Component with HasGameRef<SavanaFight> {
   Random _random;
   Timer _timer;
@@ -45,11 +43,11 @@ class EnemyManager extends Component with HasGameRef<SavanaFight> {
   void update(double t) {
     _timer.update(t);
 
-    var newSpawnLevel = (gameRef.score ~/ 500);
+    var newSpawnLevel = (gameRef.score ~/ 300);
     if (_spawnLevel < newSpawnLevel) {
       _spawnLevel = newSpawnLevel;
 
-      var newWaitTime = (4 / (1 + (0.1 * _spawnLevel)));
+      var newWaitTime = (3 / (1 + (0.1 * _spawnLevel)));
 
       _timer.stop();
       _timer = Timer(newWaitTime, repeat: true, callback: () {
@@ -61,7 +59,7 @@ class EnemyManager extends Component with HasGameRef<SavanaFight> {
 
   void reset() {
     _spawnLevel = 0;
-    _timer = Timer(4, repeat: true, callback: () {
+    _timer = Timer(3, repeat: true, callback: () {
       spawnRandomEnemy();
     });
     _timer.start();

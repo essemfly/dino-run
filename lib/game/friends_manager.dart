@@ -14,31 +14,30 @@ import 'package:flutter/material.dart';
 class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   Random _random;
   Timer _timer;
-  int _counts;
+  int _counts = 0;
   TextComponent _countsText;
 
   FriendsManager() {
     _random = Random();
-    _timer = Timer(4, repeat: true, callback: () {
-      spawnRandomEnemy();
+    _timer = Timer(3, repeat: true, callback: () {
+      spawnRandomAnimal();
     });
   }
 
-  void spawnRandomEnemy() {
-    if (_counts < 10) {
-      final randomNumber = _random.nextInt(AnimalType.values.length);
-      final randomEnemyType = AnimalType.values.elementAt(randomNumber);
-      final newAnimal = Animal(randomEnemyType);
-      gameRef.addLater(newAnimal);
-      newAnimal.appear();
+  void spawnRandomAnimal() {
+    // if (_counts < 10) {
+    final randomNumber = _random.nextInt(AnimalType.values.length);
+    final randomEnemyType = AnimalType.values.elementAt(randomNumber);
+    final newAnimal = Animal(randomEnemyType);
+    gameRef.addLater(newAnimal);
+    newAnimal.appear();
 
-      _counts += 1;
-      _countsText = TextComponent(_counts.toString(),
-          config: TextConfig(fontFamily: 'Audiowide', color: Colors.white));
-      gameRef.add(_countsText);
-    } else {
-      _timer.stop();
-    }
+    _counts += 1;
+    gameRef.score = _counts;
+    gameRef.scoreText.text = gameRef.score.toString();
+    // } else {
+    //   _timer.stop();
+    // }
   }
 
   @override
@@ -50,14 +49,12 @@ class FriendsManager extends Component with HasGameRef<SavanaFriends> {
   @override
   void resize(Size size) {
     super.resize(size);
-    _countsText
-        .setByPosition(Position((size.width / 2) - (_countsText.width / 2), 0));
   }
 
   void reset() {
     _counts = 0;
-    _timer = Timer(4, repeat: true, callback: () {
-      spawnRandomEnemy();
+    _timer = Timer(3, repeat: true, callback: () {
+      spawnRandomAnimal();
     });
     _timer.start();
   }
